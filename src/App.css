@@ -1,0 +1,49 @@
+/* Light Theme */
+:root {
+  --scrollbar-bg: #E1E1E1;
+  --scrollbar-thumb-bg: #888;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --scrollbar-bg: #333;
+  --scrollbar-thumb-bg: #666;
+}
+
+/* Vertical Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Horizontal Scrollbar */
+::-webkit-scrollbar-horizontal {
+  height: 10px;
+}
+
+/* Scrollbar Track (applies to both vertical and horizontal) */
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+
+/* Scrollbar Thumb (applies to both vertical and horizontal) */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-bg);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Change this if you want a different hover color for dark theme */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4a90e2;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
