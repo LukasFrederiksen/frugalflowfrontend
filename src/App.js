@@ -6,6 +6,9 @@ import SettingsPage from "./pages/Settings";
 import ProductsPage from "./pages/Product/Products";
 import AddProductPage from "./pages/Product/ProductsAdd";
 import ProductDetails from "./pages/Product/ProductDetails";
+import UniqueProductsPage from "./pages/UniqueProduct/UniqueProducts";
+import UniqueAddProductPage from "./pages/UniqueProduct/UniqueProductsAdd";
+import UniqueProductDetails from "./pages/UniqueProduct/UniqueProductDetails";
 import ManufacturersPage from "./pages/Manufacturers";
 import VesselsPage from "./pages/Vessel/Vessels";
 import AddVesselPage from "./pages/Vessel/VesselAdd";
@@ -45,6 +48,9 @@ export default function App() {
                   <Route path="products" element={<ProductsPage />} />
                   <Route path="products/:id" element={<ProductDetails />} />
                   <Route path="add-product" element={<AddProductPage />} />
+                  <Route path="unique-products" element={<UniqueProductsPage />} />
+                  <Route path="unique-products/:id" element={<UniqueProductDetails />} />
+                  <Route path="add-unique-product" element={<UniqueAddProductPage />} />
                   <Route path="manufacturers" element={<ManufacturersPage />} />
                   <Route path="vessels" element={<VesselsPage />} />
                   <Route path="add-vessel" element={<AddVesselPage />} />

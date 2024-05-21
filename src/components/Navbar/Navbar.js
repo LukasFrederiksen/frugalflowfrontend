@@ -75,7 +75,6 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
           className="hidden sm:block"
         />
         <span className="text-lg font-bold mr-4 pl-3 dark:text-white">
-          {/* Maaske tilføj en search box? her eller side title */}
         </span>
       </div>
       <div className="flex ml-auto mr-4 mb-0">
