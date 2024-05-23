@@ -28,6 +28,7 @@ function ProductTable() {
     try {
       const response = await httpClient.get(url);
       setData(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error("Error fetching data:", error);
     }

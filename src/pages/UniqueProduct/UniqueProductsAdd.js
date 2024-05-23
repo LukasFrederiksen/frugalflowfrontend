@@ -1,4 +1,4 @@
-import ProductCreateForm from "../../components/Product/ProductCreateForm";
+import UniqueProductCreateForm from "../../components/UniqueProduct/UniqueProductCreateForm";
 
 export default function AddProductPage() {
   return (
@@ -7,14 +7,14 @@ export default function AddProductPage() {
         <div className="lg:w-full">
           <div className="pb-4">
             <span className="text-3xl font-semibold text-gray-900 dark:text-white">
-              Create a new product
+              Add a new unique product
             </span>
             <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
               Fill in the form below to create a new product.
             </p>
           </div>
 
-          <ProductCreateForm />
+          <UniqueProductCreateForm/>
         </div>
       </div>
     </>

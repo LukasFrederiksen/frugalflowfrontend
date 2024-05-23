@@ -24,7 +24,7 @@ function UniqueProductTable() {
   };
 
   const fetchData = useCallback(async () => {
-    const url = `api/unique-products/?page=${currentPage}&search=${searchTerm}`;
+    const url = `api/unique_products/?page=${currentPage}&search=${searchTerm}`;
     try {
       const response = await httpClient.get(url);
       setProducts(response.data);
@@ -64,7 +64,7 @@ function UniqueProductTable() {
         </div>
         <div className="mt-4 md:mt-0 flex flex-row">
           <SearchComponent
-            placeholder="Search serial#, project or name"
+            placeholder="Search serial no., vessel or name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -80,17 +80,19 @@ function UniqueProductTable() {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-s text-gray-700 uppercase bg-gray-50 dark:bg-ff_bg_sidebar_dark dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-4 w-[260px]">
-              Serial number
-            </th>
             <th scope="col" className="px-6 py-4 w-[320px]">
               Name
             </th>
             <th scope="col" className="px-6 py-4 w-[260px]">
-              Cost price
+              Brand
             </th>
             <th scope="col" className="px-6 py-4 w-[260px]">
-              Retail price
+              Serial number
+            </th>
+            <th scope="col" className="px-6 py-4 w-[260px]">
+              Status
+            </th><th scope="col" className="px-6 py-4 w-[260px]">
+              Status Payment
             </th>
             <th scope="col" className="px-6 py-4 w-[260px]">
               Vessel
@@ -119,15 +121,6 @@ function UniqueProductTable() {
                                 `}
               >
                 <td
-                  className={`py-4 px-6 text-gray-900 dark:text-gray-300 w-[260px] ${
-                    product.isDeleted
-                      ? "text-opacity-25 dark:text-opacity-25"
-                      : ""
-                  }`}
-                >
-                  {product.serial_number}
-                </td>
-                <td
                   className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[320px] ${
                     product.isDeleted
                       ? "text-opacity-25 dark:text-opacity-25"
@@ -137,13 +130,32 @@ function UniqueProductTable() {
                   {product.name}
                 </td>
                 <td
+                  className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[320px] ${
+                    product.isDeleted
+                      ? "text-opacity-25 dark:text-opacity-25"
+                      : ""
+                  }`}
+                >
+                  {product.brand}
+                </td>
+                <td
+                  className={`py-4 px-6 text-gray-900 dark:text-gray-300 w-[260px] ${
+                    product.isDeleted
+                      ? "text-opacity-25 dark:text-opacity-25"
+                      : ""
+                  }`}
+                >
+                  {product.serial_number}
+                </td>
+
+                <td
                   className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[260px] ${
                     product.isDeleted
                       ? "text-opacity-25 dark:text-opacity-25"
                       : ""
                   }`}
                 >
-                  {product.cost_price}
+                  {product.status}
                 </td>
                 <td
                   className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[260px] ${
@@ -152,7 +164,16 @@ function UniqueProductTable() {
                       : ""
                   }`}
                 >
-                  {product.retail_price}
+                  {product.status_payment}
+                </td>
+                <td
+                  className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[320px] ${
+                    product.isDeleted
+                      ? "text-opacity-25 dark:text-opacity-25"
+                      : ""
+                  }`}
+                >
+                  {product.vessel}
                 </td>
                 <td className="py-4 mr-4 items-center justify-center float-right">
                   <button onClick={() => handleDetailsClick(product.id)}>
