@@ -10,7 +10,7 @@ export default function AddProductPage() {
               Add a new unique product
             </span>
             <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
-              Fill in the form below to create a new product.
+              Fill in the form below to create a new unique product.
             </p>
           </div>
 

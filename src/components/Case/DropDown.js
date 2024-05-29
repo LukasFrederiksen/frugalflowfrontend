@@ -9,6 +9,7 @@ export default function DropdownForm({
   labelKey = "name",
   valueKey = "id",
   initialSelected = "",
+    useNone = false,
   onValueChange,
 }) {
   const [data, setData] = useState([]);
@@ -60,24 +61,36 @@ export default function DropdownForm({
 
   useEffect(() => {
     if (!endpoint) return;
+    let dataArray = []
+    if (useNone) {
+      let noneObject = {}
+      noneObject[labelKey] = "None"
+      noneObject[valueKey] = "None"
+      dataArray.push(noneObject)
+    }
 
     httpClient
       .get(endpoint)
       .then((response) => {
         if (Array.isArray(response.data)) {
-          setData(response.data);
+          dataArray = dataArray.concat(response.data)
+          console.log(dataArray)
+          setData(dataArray);
+
         } else if (typeof response.data === "object") {
           // Convert object values into an array
-          setData(Object.values(response.data.results));
+          dataArray = dataArray.concat(Object.values(response.data.results))
+          setData(dataArray);
+
         } else {
           console.warn("Fetched data is not recognized", response.data.results);
-          setData([]);
+          setData(dataArray);
         }
       })
       .catch((error) => {
         console.error("There was an error fetching the data", error);
       });
-  }, [endpoint, httpClient]);
+  }, [endpoint, httpClient, useNone]);
 
   const options = data
     .filter((item) => item)

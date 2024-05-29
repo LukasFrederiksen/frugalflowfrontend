@@ -28,6 +28,7 @@ function UniqueProductTable() {
     try {
       const response = await httpClient.get(url);
       setProducts(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -47,7 +48,6 @@ function UniqueProductTable() {
   };
 
   const handleDetailsClick = (productId) => {
-    // naviger til /product/:id
     navigate(`/unique-products/${productId}`);
   };
 
@@ -84,13 +84,10 @@ function UniqueProductTable() {
               Name
             </th>
             <th scope="col" className="px-6 py-4 w-[260px]">
-              Brand
-            </th>
-            <th scope="col" className="px-6 py-4 w-[260px]">
               Serial number
             </th>
             <th scope="col" className="px-6 py-4 w-[260px]">
-              Status
+              Status Shipping
             </th><th scope="col" className="px-6 py-4 w-[260px]">
               Status Payment
             </th>
@@ -104,7 +101,7 @@ function UniqueProductTable() {
         </thead>
         <tbody>
           {products &&
-            products.results.map((product, index) => (
+            products.map((product, index) => (
               <tr
                 key={product.id}
                 className={`text-left hover:bg-slate-300 hover:bg-opacity-50 dark:hover:bg-opacity-10
@@ -129,15 +126,15 @@ function UniqueProductTable() {
                 >
                   {product.name}
                 </td>
-                <td
-                  className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[320px] ${
-                    product.isDeleted
-                      ? "text-opacity-25 dark:text-opacity-25"
-                      : ""
-                  }`}
-                >
-                  {product.brand}
-                </td>
+                {/*<td*/}
+                {/*  className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[320px] ${*/}
+                {/*    product.isDeleted*/}
+                {/*      ? "text-opacity-25 dark:text-opacity-25"*/}
+                {/*      : ""*/}
+                {/*  }`}*/}
+                {/*>*/}
+                {/*  {product.brand}*/}
+                {/*</td>*/}
                 <td
                   className={`py-4 px-6 text-gray-900 dark:text-gray-300 w-[260px] ${
                     product.isDeleted
@@ -155,7 +152,7 @@ function UniqueProductTable() {
                       : ""
                   }`}
                 >
-                  {product.status}
+                  {product.status_shipping}
                 </td>
                 <td
                   className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[260px] ${

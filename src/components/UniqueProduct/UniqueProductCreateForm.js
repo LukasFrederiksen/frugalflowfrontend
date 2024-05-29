@@ -19,7 +19,7 @@ const UniqueProductCreateForm = () => {
         name: "",
         serial_number: "",
         sku: "",
-        qty: "",
+        vessel: "",
         description: "",
         manufacturer: "",
         cost_price: "",
@@ -43,6 +43,13 @@ const UniqueProductCreateForm = () => {
         }));
     };
 
+    const handDropDownVessel= (selectedOption) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            vessel: selectedOption.value,
+        }));
+    };
+
     const validateForm = () => {
         const Errors = {};
 
@@ -61,10 +68,6 @@ const UniqueProductCreateForm = () => {
 
         if (!formData.sku.trim()) {
             Errors.sku = "SKU required"
-        }
-
-        if (!formData.qty.trim()) {
-            Errors.qty = "quantity is required"
         }
 
         if (!formData.manufacturer) {
@@ -94,18 +97,18 @@ const UniqueProductCreateForm = () => {
 
         let toastId;
         try {
-          toastId = showLoadingToast("Creating product...");
-          const response = await httpClient.post("api/products/", formData);
+          toastId = showLoadingToast("Creating unique product...");
+          const response = await httpClient.post("api/unique_products/", formData);
           if (response.status === 201) {
-            updateToast(toastId, "Product created successfully!", "success");
+            updateToast(toastId, "Unique product created successfully!", "success");
             navigate(
-              location?.state?.prevoiusUrl ? location.state.prevoiusUrl : "/products"
+              location?.state?.previousUrl ? location.state.previousUrl : "/unique_products"
             );
           } else {
-            updateToast(toastId, `Error creating product: ${response.error}`, "error");
+            updateToast(toastId, `Error creating unique product: ${response.error}`, "error");
           }
         } catch (error) {
-          updateToast(toastId, `Error creating product: ${error}`, "error");
+          updateToast(toastId, `Error creating unique product: ${error}`, "error");
         }
       };
 
@@ -221,26 +224,25 @@ const UniqueProductCreateForm = () => {
                 />
             </div>
 
-              {/* Quantity */}
+              {/* Vessel */}
             <div className="py-2">
                 <label
-                htmlFor="Quantity"
+                htmlFor="Vessel"
                 className="flex justify-between items-center mb-2 text-sm font-medium ff-text"
                 >
-                    Quantity
-                    {errors.qty && (
+                    Vessel
+                    {errors.vessel && (
                         <p className="text-red-500 text-xs ml-auto">
-                        {errors.qty}</p>
+                        {errors.vessel}</p>
                     )}
                 </label>
-                <input
-                    type="text"
-                    id="qty"
-                    name="qty"
-                    value={formData.qty}
-                    onChange={handleInputChange}
-                    className="ff-input w-full"
-                    placeholder="Product quantity"
+                <DropdownForm
+                    endpoint="api/vessels/?show_all=true"
+                    labelKey="name"
+                    valueKey="id"
+                    initialSelected=""
+                    useNone={true}
+                    onValueChange={handDropDownVessel}
                 />
             </div>
 
