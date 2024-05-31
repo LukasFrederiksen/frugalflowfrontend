@@ -29,7 +29,7 @@ export default function UniqueProductEditModal({ id, onClose, onUpdated }) {
 
     const fetchProductData = async () => {
       try {
-        const response = await httpClient.get(`api/products/${id}`);
+        const response = await httpClient.get(`api/unique_products/${id}`);
         const data = response.data.product;
         console.log("Product data:", data);
         setSerialNumber(data.serial_number);
