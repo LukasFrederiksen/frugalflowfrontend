@@ -19,10 +19,11 @@ function CasesTable() {
   const itemsPerPage = 20;
 
   const fetchData = async () => {
-    const url = `api/cases/?page=${currentPage}&search=${searchTerm}&sortprice=${sortPriceTerm}&sortdeadline=${sortDeadlineTerm}`;
+    const url = `api/cases/?page=${currentPage}&search=${searchTerm}&sortdeadline=${sortDeadlineTerm}`;
     try {
       const response = await httpClient.get(url);
       setData(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -82,16 +83,6 @@ function CasesTable() {
               </th>
               <th scope="col" className="px-6 py-4">
                 <div className="flex items-center">
-                  Total Price
-                  <AscDescComponent
-                    className="pl-3"
-                    currentSort={sortPriceTerm}
-                    onToggleSort={togglePriceSort}
-                  />
-                </div>
-              </th>
-              <th scope="col" className="px-6 py-4">
-                <div className="flex items-center">
                   Deadline
                   <AscDescComponent
                     className="pl-3"
@@ -101,13 +92,13 @@ function CasesTable() {
                 </div>
               </th>
               <th scope="col" className="px-6 py-4">
-                Customer
+                Vessel
               </th>
               <th scope="col" className="px-6 py-4">
-                Status
+                Case Status
               </th>
               <th scope="col" className="px-6 py-4">
-                Payment Status
+                Case Manager
               </th>
               <th scope="col" className="px-6 py-4 text-right">
                 Details
@@ -131,11 +122,10 @@ function CasesTable() {
                   >
                     {caseItem.title}
                   </th>
-                  <td className="px-6 py-4">${caseItem.total_price}</td>
                   <td className="px-6 py-4">{caseItem.deadline}</td>
-                  <td className="px-6 py-4">{caseItem.customer_data.name}</td>
+                  <td className="px-6 py-4">{caseItem?.vessel?.name}</td>
                   <td className="px-6 py-4">{caseItem.case_status}</td>
-                  <td className="px-6 py-4">{caseItem.payment_status}</td>
+                  <td className="px-6 py-4">{caseItem.case_manager.first_name + " " + caseItem.case_manager.last_name}</td>
                   <td className="px-6 py-4 text-right">
                     {" "}
                     {/* Added cell for details button */}

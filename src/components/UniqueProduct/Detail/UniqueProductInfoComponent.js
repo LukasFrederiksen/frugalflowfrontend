@@ -1,5 +1,5 @@
 import React from "react";
-import UniqueProductDetailSection from "./UniqueProductDetailsSection";
+import DetailsSection from "./DetailsSection";
 import UniqueProductDetailSectionDescription from "./UniqueProductDetailsDescription";
 
 const UniqueProductInfoComponent = ({product}) => {
@@ -24,16 +24,16 @@ const UniqueProductInfoComponent = ({product}) => {
 
                     {/* id Section */}
                     <div className="mt-6 space-y-4">
-                        <UniqueProductDetailSection title="Serial Number" detail={product?.serial_number}/>
-                        <UniqueProductDetailSection
+                        <DetailsSection title="Serial Number" detail={product?.serial_number}/>
+                        <DetailsSection
                             title="Custom Price"
                             detail={`${product?.custom_price},-`}
                         />
-                        <UniqueProductDetailSection
+                        <DetailsSection
                             title="Status Payment"
                             detail={`${product?.status_payment}`}
                         />
-                        <UniqueProductDetailSection
+                        <DetailsSection
                             title="Status Shipping"
                             detail={`${product?.status_shipping}`}
                         />
@@ -47,16 +47,20 @@ const UniqueProductInfoComponent = ({product}) => {
                         <h3 className="text-2xl font-bold ff-text">Case and Vessel</h3>
                         <div className="mt-6 space-y-4">
                             {product?.case ? <div>
-                                <UniqueProductDetailSection title="Case Manager" detail={product?.case?.case_manager?.first_name + " " + product?.case?.case_manager?.last_name }/>
-                                <UniqueProductDetailSection
+                                <DetailsSection
+                                    title="Case Manager"
+                                    link={`/case/${product?.case?.vessel?.id}`}
+                                    detail={product?.case?.case_manager?.first_name + " " + product?.case?.case_manager?.last_name}/>
+                                <DetailsSection
                                     title="Vessel"
+                                    link={`/vessels/${product?.case?.vessel?.id}`}
                                     detail={`${product?.case?.vessel?.name}`}
                                 />
-                                <UniqueProductDetailSection
+                                <DetailsSection
                                     title="Vessel IMO"
                                     detail={`${product?.case?.vessel?.imo}`}
                                 />
-                                <UniqueProductDetailSection
+                                <DetailsSection
                                     title="Fleet Owner"
                                     detail={`${product?.case?.vessel?.vessel_owner?.name}`}
                                 />

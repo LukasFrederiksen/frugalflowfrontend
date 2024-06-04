@@ -12,6 +12,7 @@ import { baseUrl } from "../../const";
 import InfoComponent from "../../components/Case/InfoComponent";
 import CaseInfoComponent from "../../components/Case/detail/CaseInfoComponent";
 import { TabsWithIconComponent } from "../../components/Case/detail/TabsWithIconComponent";
+import CaseProductsInfoComponent from "../../components/Case/detail/CaseProductsInfoComponent";
 
 function CaseDetails() {
   const { id } = useParams();
@@ -47,19 +48,7 @@ function CaseDetails() {
       label: "Products",
       value: "products",
       icon: <BiSolidComponent className="w-5 h-5" />,
-      component: <InfoComponent title="Products" text="Products Information" />,
-    },
-    {
-      label: "Timeline",
-      value: "timeline",
-      icon: <FaTimeline className="w-5 h-5" />,
-      component: <InfoComponent title="Timeline" text="Timeline Information" />,
-    },
-    {
-      label: "Tasks",
-      value: "tasks",
-      icon: <GoTasklist className="w-5 h-5" />,
-      component: <InfoComponent title="Tasks" text="Tasks Information" />,
+      component: <CaseProductsInfoComponent productsData={caseData?.unique_products} />,
     },
     {
       label: "Payments",
