@@ -24,7 +24,7 @@ function UniqueProductTable() {
   };
 
   const fetchData = useCallback(async () => {
-    const url = `api/unique_products/?page=${currentPage}&search=${searchTerm}`;
+    const url = `api/products/unique_products/?page=${currentPage}&search=${searchTerm}`;
     try {
       const response = await httpClient.get(url);
       setProducts(response.data);

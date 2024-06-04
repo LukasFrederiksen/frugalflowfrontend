@@ -17,13 +17,13 @@ const ProductCreateForm = () => {
 
     const [formData, setFormData] = useState({
         name: "",
-        serial_number: "",
         sku: "",
         qty: "",
         description: "",
         manufacturer: "",
         cost_price: "",
         retail_price: "",
+        is_unique: 0
     });
 
     const [errors, setErrors] =useState({});
@@ -34,6 +34,21 @@ const ProductCreateForm = () => {
             ...prevData,
             [name]: value,
         }));
+    };
+
+    const handleUniqueCheckBox = (event) => {
+        if(formData['is_unique'] === 1) {
+            setFormData((prevData) => ({
+                ...prevData,
+                is_unique: 0,
+            }));
+        }else{
+            setFormData((prevData) => ({
+                ...prevData,
+                is_unique: 1,
+                qty: "",
+            }));
+        }
     };
 
     const handDropDownManufacturer= (selectedOption) => {
@@ -48,10 +63,6 @@ const ProductCreateForm = () => {
 
         if (!formData.name.trim()) {
             Errors.name = "Name is required"
-        }
-
-        if (!formData.serial_number.trim()) {
-            Errors.serial_number = "Serial number required"
         }
 
         if (formData.description.length > 500) {
@@ -99,7 +110,7 @@ const ProductCreateForm = () => {
           if (response.status === 201) {
             updateToast(toastId, "Product created successfully!", "success");
             navigate(
-              location?.state?.prevoiusUrl ? location.state.prevoiusUrl : "/products"
+              location?.state?.previousUrl ? location.state.previousUrl : "/products"
             );
           } else {
             updateToast(toastId, `Error creating product: ${response.error}`, "error");
@@ -144,27 +155,26 @@ const ProductCreateForm = () => {
                 />
             </div>
 
-            {/* Serial number*/}
+            {/* Unique Check*/}
             <div className="py-2">
                 <label
-                htmlFor="serial_number"
+                htmlFor="is_unique"
                 className="flex justify-between items-center mb-2 text-sm font-medium ff-text"
                 >
-                Serial number
-                {errors.serial_number && (
+                Is this for a unique product?
+                {errors.is_unique && (
                     <p className="text-red-500 text-xs ml-auto">
-                    {errors.serial_number}
+                    {errors.is_unique}
                 </p>
                 )}
                 </label>
                 <input
-                    type="text"
-                    id="serial_number"
-                    name="serial_number"
+                    type="checkbox"
+                    id="is_unique"
+                    name="is_unique"
                     value={formData.serial_number}
-                    onChange={handleInputChange}
-                    className="ff-input w-full"
-                    placeholder="Serial number"
+                    onChange={handleUniqueCheckBox}
+                    className="ff-button w-10 h-10"
                 >
                 </input>
             </div>
@@ -222,7 +232,7 @@ const ProductCreateForm = () => {
             </div>
 
               {/* Quantity */}
-            <div className="py-2">
+              {formData["is_unique"] === 0 && <div className="py-2">
                 <label
                 htmlFor="Quantity"
                 className="flex justify-between items-center mb-2 text-sm font-medium ff-text"
@@ -242,7 +252,7 @@ const ProductCreateForm = () => {
                     className="ff-input w-full"
                     placeholder="Product quantity"
                 />
-            </div>
+            </div>}
 
             {/* Manufacturer */}
             <div className="py-2">
