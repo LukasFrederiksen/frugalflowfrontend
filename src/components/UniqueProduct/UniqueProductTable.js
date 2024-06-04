@@ -101,7 +101,7 @@ function UniqueProductTable() {
         </thead>
         <tbody>
           {products &&
-            products.map((product, index) => (
+            products.results.map((product, index) => (
               <tr
                 key={product.id}
                 className={`text-left hover:bg-slate-300 hover:bg-opacity-50 dark:hover:bg-opacity-10
@@ -124,17 +124,8 @@ function UniqueProductTable() {
                       : ""
                   }`}
                 >
-                  {product.name}
+                  {product.product.name}
                 </td>
-                {/*<td*/}
-                {/*  className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[320px] ${*/}
-                {/*    product.isDeleted*/}
-                {/*      ? "text-opacity-25 dark:text-opacity-25"*/}
-                {/*      : ""*/}
-                {/*  }`}*/}
-                {/*>*/}
-                {/*  {product.brand}*/}
-                {/*</td>*/}
                 <td
                   className={`py-4 px-6 text-gray-900 dark:text-gray-300 w-[260px] ${
                     product.isDeleted
@@ -170,10 +161,10 @@ function UniqueProductTable() {
                       : ""
                   }`}
                 >
-                  {product.vessel}
+                  {product.case === null ? "None" : product.case.vessel.name}
                 </td>
                 <td className="py-4 mr-4 items-center justify-center float-right">
-                  <button onClick={() => handleDetailsClick(product.id)}>
+                  <button onClick={() => handleDetailsClick(product.unique_product_id)}>
                     <FiMoreHorizontal className="h-5 w-5 text-black dark:text-white" />
                   </button>
                 </td>

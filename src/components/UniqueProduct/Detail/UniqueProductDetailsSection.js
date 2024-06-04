@@ -1,4 +1,4 @@
-const DetailSection = ({ title, detail }) => (
+const UniqueProductDetailSection = ({ title, detail, ref }) => (
   <div className="grid grid-cols-2 gap-4">
     <dt className="col-span-1 text-lg md:text-base font-medium text-gray-800 truncate">
       {title}
@@ -7,4 +7,4 @@ const DetailSection = ({ title, detail }) => (
   </div>
 );
 
-export default DetailSection;
+export default UniqueProductDetailSection;

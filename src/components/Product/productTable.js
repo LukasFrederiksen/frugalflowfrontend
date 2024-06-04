@@ -81,9 +81,6 @@ function ProductTable() {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-s text-gray-700 uppercase bg-gray-50 dark:bg-ff_bg_sidebar_dark dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-4 w-[260px]">
-              Serial number
-            </th>
             <th scope="col" className="px-6 py-4 w-[320px]">
               Name
             </th>
@@ -122,15 +119,6 @@ function ProductTable() {
                                 }
                                 `}
               >
-                <td
-                  className={`py-4 px-6 text-gray-900 dark:text-gray-300 w-[260px] ${
-                    product.isDeleted
-                      ? "text-opacity-25 dark:text-opacity-25"
-                      : ""
-                  }`}
-                >
-                  {product.serial_number}
-                </td>
                 <td
                   className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[320px] ${
                     product.isDeleted

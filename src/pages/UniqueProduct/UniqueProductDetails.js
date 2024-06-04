@@ -8,8 +8,8 @@ import { baseUrl } from "../../const";
 
 import InfoComponent from "../../components/Case/InfoComponent";
 import { TabsWithIconComponent } from "../../components/Case/detail/TabsWithIconComponent";
-import ProductInfoComponent from "../../components/Product/Detail/DetailsInfoComponent";
-import ProductEditModal from "../../components/Product/ProductEditModal";
+import UniqueProductInfoComponent from "../../components/UniqueProduct/Detail/UniqueProductInfoComponent";
+
 
 function UniqueProductDetails() {
   const { id } = useParams();
@@ -22,9 +22,9 @@ function UniqueProductDetails() {
 
   const fetchData = async () => {
     try {
-      const response = await httpClient.get(`api/products/${id}`);
+      const response = await httpClient.get(`api/products/unique_product/${id}`);
       setProductData(response.data.product);
-      console.log(productData);
+      console.log(response.data);
       setLoading(false);
     } catch (error) {
       setError(error);
@@ -45,7 +45,7 @@ function UniqueProductDetails() {
       label: "Information",
       value: "information",
       icon: <TbFileDescription className="w-5 h-5" />,
-      component: productData && <ProductInfoComponent product={productData} />,
+      component: productData && <UniqueProductInfoComponent product={productData} />,
     },
     {
       label: "Stock",
@@ -81,7 +81,7 @@ function UniqueProductDetails() {
     <>
       <TabsWithIconComponent tabs={tabs} />
       {isModalOpen && (
-        <ProductEditModal
+        <UniqueProductDetails
           id={id}
           onClose={() => setIsModalOpen(false)}
           onUpdated={refreshProductData} // Pass the callback here
