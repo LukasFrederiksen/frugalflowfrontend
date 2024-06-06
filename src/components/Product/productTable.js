@@ -6,6 +6,7 @@ import HttpClient from "../../Services/HttpClient";
 import { baseUrl } from "../../const";
 import Pagination from "../common/Pagination";
 import ProductEditModal from "../Product/ProductEditModal";
+import {StandardCurrency} from "../../utils/utils";
 
 const httpClient = new HttpClient(baseUrl);
 
@@ -144,7 +145,7 @@ function ProductTable() {
                       : ""
                   }`}
                 >
-                  {product.cost_price}
+                  {product.cost_price} {StandardCurrency}
                 </td>
                 <td
                   className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[260px] ${
@@ -153,7 +154,7 @@ function ProductTable() {
                       : ""
                   }`}
                 >
-                  {product.retail_price}
+                  {product.retail_price} {StandardCurrency}
                 </td>
                 <td
                   className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[260px] ${

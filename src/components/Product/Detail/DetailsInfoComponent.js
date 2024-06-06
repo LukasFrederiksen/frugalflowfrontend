@@ -1,6 +1,7 @@
 import React from "react";
 import DetailSection from "./DetailsSection";
 import DetailSectionDescription from "./DetailsDescription";
+import {StandardCurrency} from "../../../utils/utils";
 
 const ProductInfoPage = ({ product }) => {
   return (
@@ -27,11 +28,11 @@ const ProductInfoPage = ({ product }) => {
             <DetailSection title="Sku" detail={product?.sku} />
             <DetailSection
               title="Cost Price"
-              detail={`${product?.cost_price},-`}
+              detail={`${product?.cost_price} ${StandardCurrency}`}
             />
             <DetailSection
               title="Retail Price"
-              detail={`${product?.retail_price},-`}
+              detail={`${product?.retail_price} ${StandardCurrency}`}
             />
             <DetailSection
               title="Stock Overview"

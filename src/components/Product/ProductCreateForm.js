@@ -6,8 +6,9 @@ import IconAndText from "../common/IconAndText";
 import { BsInfoSquareFill } from "react-icons/bs"; 
 import { BsPeopleFill } from "react-icons/bs"; 
 
-import DropdownForm from "../Case/DropDown";
+import DropdownForm from "../common/DropDown";
 import { showLoadingToast, updateToast } from "../common/toast";
+import {StandardCurrency} from "../../utils/utils";
 
 const httpClient = new HttpClient(baseUrl);
 
@@ -20,7 +21,7 @@ const ProductCreateForm = () => {
         sku: "",
         qty: "",
         description: "",
-        manufacturer: "",
+        manufacture_id: "",
         cost_price: "",
         retail_price: "",
         is_unique: 0
@@ -54,7 +55,7 @@ const ProductCreateForm = () => {
     const handDropDownManufacturer= (selectedOption) => {
         setFormData((prevState) => ({
             ...prevState,
-            manufacturer: selectedOption.value,
+            manufacture_id: selectedOption.value,
         }));
     };
 
@@ -74,12 +75,12 @@ const ProductCreateForm = () => {
             Errors.sku = "SKU required"
         }
 
-        if (!formData.qty.trim()) {
+        if (formData.is_unique === 0 % (formData.qty < 0 ||!formData.qty.trim() || isNaN(formData.qty))) {
             Errors.qty = "quantity is required"
         }
 
-        if (!formData.manufacturer) {
-            Errors.manufacturer = "Select a manufacturer";
+        if (!formData.manufacture_id) {
+            Errors.manufacture_id = "Select a manufacturer";
         }
 
         if (formData.cost_price <= 0 || isNaN(formData.cost_price)) {
@@ -244,7 +245,7 @@ const ProductCreateForm = () => {
                     )}
                 </label>
                 <input
-                    type="text"
+                    type="number"
                     id="qty"
                     name="qty"
                     value={formData.qty}
@@ -261,9 +262,9 @@ const ProductCreateForm = () => {
                 className="flex justify-between items-center mb-2 text-sm font-medium ff-text"
                 >
                     Manufacturer
-                    {errors.manufacturer && (
+                    {errors.manufacture_id && (
                         <p className="text-red-500 text-xs ml-auto">
-                            {errors.manufacturer}
+                            {errors.manufacture_id}
                         </p>
                     )}
                 </label>

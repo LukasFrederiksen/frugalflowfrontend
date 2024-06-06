@@ -10,6 +10,7 @@ import InfoComponent from "../../components/Case/InfoComponent";
 import { TabsWithIconComponent } from "../../components/Case/detail/TabsWithIconComponent";
 import ProductInfoComponent from "../../components/Product/Detail/DetailsInfoComponent";
 import ProductEditModal from "../../components/Product/ProductEditModal";
+import CaseProductsInfoComponent from "../../components/Case/detail/CaseProductsInfoComponent";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -24,7 +25,7 @@ function ProductDetails() {
     try {
       const response = await httpClient.get(`api/products/${id}`);
       setProductData(response.data.product);
-      console.log(productData);
+      console.log(response.data.product);
       setLoading(false);
     } catch (error) {
       setError(error);
@@ -51,7 +52,9 @@ function ProductDetails() {
       label: "Stock",
       value: "stock",
       icon: <BiSolidComponent className="w-5 h-5" />,
-      component: <InfoComponent title="Stock" text="Stock overview" />,
+      component: productData?.unique_products  ?
+          <CaseProductsInfoComponent productsData={productData?.unique_products} /> :
+          <InfoComponent title="Stock" text="Stock overview" />,
     },
     {
       label: "Timeline",

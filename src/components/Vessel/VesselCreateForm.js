@@ -1,27 +1,35 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, {useState} from "react";
+import {useNavigate, useLocation} from "react-router-dom";
 import HttpClient from "../../Services/HttpClient";
-import { baseUrl } from "../../const";
+import {baseUrl} from "../../const";
 import IconAndText from "../common/IconAndText";
-import { BsInfoSquareFill } from "react-icons/bs";
-import { updateToast, showSuccessToast } from "../common/toast";
+import {BsInfoSquareFill} from "react-icons/bs";
+import {updateToast, showSuccessToast} from "../common/toast";
+import DropdownForm from "../common/DropDown";
 
 const httpClient = new HttpClient(baseUrl);
 
 const VesselCreateForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
-
     const [formData, setFormData] = useState({
         name: "",
         imo: "",
         type: "",
+        customer_id: "",
     });
 
     const [errors, setErrors] = useState({});
 
+    const handleDropDownVesselOwner= (selectedOption) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            customer_id: selectedOption.value,
+        }));
+    };
+
     const handleInputChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const {name, value, type, checked} = e.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: type === "checkbox" ? checked : value,
@@ -30,7 +38,6 @@ const VesselCreateForm = () => {
 
     const validateForm = () => {
         const Errors = {};
-
         if (!formData.name.trim()) {
             Errors.name = "Name is required"
         }
@@ -41,6 +48,10 @@ const VesselCreateForm = () => {
 
         if (!formData.type.trim()) {
             Errors.type = "Type is required"
+        }
+
+        if (!formData.customer_id) {
+            Errors.customer_id = "Vessel owner is required"
         }
 
         return Errors;
@@ -77,7 +88,7 @@ const VesselCreateForm = () => {
                 <div className="flex flex-wrap">
                     {/* Left coloumn */}
                     <div className="w-full md:w-1/2 px-3 md:mb-6 md:pr-10">
-                        <IconAndText icon={BsInfoSquareFill} text="General information" />
+                        <IconAndText icon={BsInfoSquareFill} text="General information"/>
                         {/* Name */}
                         <div className="py-2">
                             <label
@@ -122,6 +133,22 @@ const VesselCreateForm = () => {
                                 placeholder="Vessel imo"
                             />
                         </div>
+                        {/* Vessel Owner */}
+                        <div className="mb-4">
+                            <label
+                                htmlFor="customer_id"
+                                className="mb-1 block text-sm text-left font-medium text-gray-700 dark:text-white"
+                            >
+                                Vessel Owner
+                            </label>
+                            <DropdownForm
+                                endpoint="api/customers"
+                                labelKey="name"
+                                valueKey="id"
+                                initialSelected={formData.customer_id}
+                                onValueChange={handleDropDownVesselOwner}
+                            />
+                        </div>
                         {/* Type */}
                         <div className="py-2">
                             <label
@@ -150,11 +177,11 @@ const VesselCreateForm = () => {
                             </select>
                         </div>
                         <button
-                        type="submit"
-                        className="mt-8 px-4 py-2 rounded-md bg-customYellow text-ff_background_dark font-semibold hover:bg-customYellowDark h-[40px]"
-                    >
-                        Create new vessel
-                    </button>
+                            type="submit"
+                            className="mt-8 px-4 py-2 rounded-md bg-customYellow text-ff_background_dark font-semibold hover:bg-customYellowDark h-[40px]"
+                        >
+                            Create new vessel
+                        </button>
                     </div>
                 </div>
             </form>

@@ -24,7 +24,7 @@ function UniqueProductTable() {
   };
 
   const fetchData = useCallback(async () => {
-    const url = `api/products/unique_products/?page=${currentPage}&search=${searchTerm}`;
+    const url = `api/unique_products/?page=${currentPage}&search=${searchTerm}`;
     try {
       const response = await httpClient.get(url);
       setProducts(response.data);
@@ -52,7 +52,7 @@ function UniqueProductTable() {
   };
 
   return (
-    <div className="products-table-container">
+    <div className="unique-products-table-container">
       <div className="pb-6 flex flex-col md:flex-row justify-between items-start md:items-center bg-ff_background_light dark:bg-ff_background_dark rounded-t-lg">
         <div>
           <span className="text-3xl font-semibold text-gray-900 dark:text-white">

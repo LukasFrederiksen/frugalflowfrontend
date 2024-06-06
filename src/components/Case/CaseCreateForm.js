@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import DropdownForm from "./DropDown";
+import DropdownForm from "../common/DropDown";
 import DropdownFormMulti from "./MultiSelectDropdown";
 import { BsInfoSquareFill } from "react-icons/bs"; // info icon
 import { BsCalendarCheckFill } from "react-icons/bs"; // status icon
@@ -20,14 +20,10 @@ const CaseCreateForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    customer: "",
-    total_price: "",
     deadline: "",
-    product_owner: "",
-    vessel: "",
-    followers: [],
+    user_id: "",
+    vessel_id: "",
     case_status: "",
-    payment_status: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -39,32 +35,16 @@ const CaseCreateForm = () => {
     }));
   };
 
-  const handleDropdownProductOwner = (selectedOption) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      product_owner: selectedOption.value,
-    }));
-  };
-
   const handleDropdownVessel = (selectedOption) => {
     setFormData((prevState) => ({
       ...prevState,
-      vessel: selectedOption.value,
+      vessel_id: selectedOption.value,
     }));
   };
-
-  const handleDropdownCustomer = (selectedOption) => {
+  const handleDropdownCaseManager = (selectedOption) => {
     setFormData((prevState) => ({
       ...prevState,
-      customer: selectedOption.value,
-    }));
-  };
-
-  const handleDropdownFollowers = (selectedOptions) => {
-    const followers = selectedOptions.map((option) => option.value);
-    setFormData((prevState) => ({
-      ...prevState,
-      followers: followers,
+      user_id: selectedOption.value,
     }));
   };
 
@@ -80,10 +60,6 @@ const CaseCreateForm = () => {
       Errors.description = "Description is too long.";
     }
 
-    if (formData.total_price <= 0 || isNaN(formData.total_price)) {
-      Errors.total_price = "Total price must be a positive number.";
-    }
-
     const today = new Date();
     const deadline = new Date(formData.deadline);
     if (isNaN(deadline) || deadline < today) {
@@ -94,24 +70,12 @@ const CaseCreateForm = () => {
       Errors.case_status = "Select a case status.";
     }
 
-    if (!formData.payment_status) {
-      Errors.payment_status = "Select a payment status.";
+    if (!formData.vessel_id) {
+      Errors.vessel_id = "Select a vessel.";
     }
 
-    if (!formData.vessel) {
-      Errors.vessel = "Select a vessel.";
-    }
-
-    if (!formData.customer) {
-      Errors.customer = "Select a customer.";
-    }
-
-    if (!formData.product_owner) {
-      Errors.product_owner = "Select a product owner.";
-    }
-
-    if (formData.followers.length > 10) {
-      Errors.followers = "Select up to 10 followers.";
+    if (!formData.user_id) {
+      Errors.user_id = "Select a case manager.";
     }
 
     return Errors;
@@ -208,7 +172,7 @@ const CaseCreateForm = () => {
                 className="flex justify-between items-center mb-2 text-sm font-medium ff-text"
               >
                 Vessel
-                {errors.vessel && (
+                {errors.vessel_id && (
                   <p className="text-red-500 text-xs ml-auto">
                     {errors.vessel}
                   </p>
@@ -220,44 +184,6 @@ const CaseCreateForm = () => {
                 valueKey="id"
                 initialSelected=""
                 onValueChange={handleDropdownVessel}
-              />
-            </div>
-            {/* Customer */}
-            <div className="py-2">
-              <label className="flex justify-between items-center mb-2 text-sm font-medium ff-text">
-                Customer
-                {errors.customer && (
-                  <p className="text-red-500 text-xs ml-auto">
-                    {errors.customer}
-                  </p>
-                )}
-              </label>
-              <DropdownForm
-                endpoint="api/customers?show_all=true"
-                labelKey="name"
-                valueKey="id"
-                initialSelected=""
-                onValueChange={handleDropdownCustomer}
-              />
-            </div>
-            {/* Total Price */}
-            <div className="py-2">
-              <label className="flex justify-between items-center mb-2 text-sm font-medium ff-text">
-                Total Price
-                {errors.total_price && (
-                  <p className="text-red-500 text-xs ml-auto">
-                    {errors.total_price}
-                  </p>
-                )}
-              </label>
-              <input
-                type="number"
-                id="total_price"
-                name="total_price"
-                value={formData.total_price}
-                onChange={handleInputChange}
-                className="ff-input w-full"
-                placeholder="0.00"
               />
             </div>
             {/* Deadline */}
@@ -284,13 +210,13 @@ const CaseCreateForm = () => {
           {/* Right Column */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:border-l border-gray-200 dark:border-ff_background_dark md:pl-10">
             <IconAndText icon={BsPeopleFill} text="Stakeholders" />
-            {/* Product owner */}
+            {/* Case Manager */}
             <div className="py-2">
               <label className="flex justify-between items-center mb-2 text-sm font-medium ff-text">
-                Product Owner
-                {errors.product_owner && (
+                Case Manager
+                {errors.user_id && (
                   <p className="text-red-500 text-xs ml-auto">
-                    {errors.product_owner}
+                    {errors.user_id}
                   </p>
                 )}
               </label>
@@ -299,22 +225,10 @@ const CaseCreateForm = () => {
                 labelKey="first_name"
                 valueKey="id"
                 initialSelected=""
-                onValueChange={handleDropdownProductOwner}
+                onValueChange={handleDropdownCaseManager}
               />
             </div>
-            {/* Followers */}
-            <div className="py-2">
-              <label className="flex justify-between items-center mb-2 text-sm font-medium ff-text">
-                Employees to follow updates:
-              </label>
-              <DropdownFormMulti
-                endpoint="api/users?show_all=true"
-                labelKey="first_name"
-                valueKey="id"
-                initialSelected={[]}
-                onValueChange={handleDropdownFollowers}
-              />
-            </div>
+
             <IconAndText icon={BsCalendarCheckFill} text="Status" />
             {/* Case Status */}
             <div className="py-2">
@@ -342,41 +256,6 @@ const CaseCreateForm = () => {
                 <option value="on_hold">On Hold</option>
                 <option value="done">Done</option>
               </select>
-            </div>
-            {/* Payment Status */}
-            <div className="py-2">
-              <label className="flex justify-between items-center mb-2 text-sm font-medium ff-text">
-                Payment Status
-                {errors.payment_status && (
-                  <p className="text-red-500 text-xs ml-auto">
-                    {errors.payment_status}
-                  </p>
-                )}
-              </label>
-              <select
-                id="payment_status"
-                name="payment_status"
-                value={formData.payment_status}
-                onChange={handleInputChange}
-                className="ff-input w-full"
-              >
-                <option value="">Select a payment status</option>
-                <option value="unpaid">Unpaid</option>
-                <option value="partial">Partially Paid</option>
-                <option value="paid">Paid</option>
-                <option value="overdue">Overdue</option>
-                <option value="overpaid">Overpaid</option>
-                <option value="cancelled">Cancelled</option>
-                <option value="refunded">Refunded</option>
-                <option value="partially_refunded">Partially Refunded</option>
-                <option value="courtesy">Courtesy</option>
-              </select>
-            </div>
-            <div className="py-3">
-              <InfoComponent
-                title="Important"
-                text="Later you can add products to this case. Follow the progress of the case and add notes. See a timeline of events and more."
-              />
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ import IconAndText from "../common/IconAndText";
 import {BsInfoSquareFill} from "react-icons/bs";
 import {BsPeopleFill} from "react-icons/bs";
 
-import DropdownForm from "../Case/DropDown";
+import DropdownForm from "../common/DropDown";
 import {showLoadingToast, updateToast} from "../common/toast";
 
 const httpClient = new HttpClient(baseUrl);
@@ -137,7 +137,7 @@ const UniqueProductCreateForm = () => {
                                 )}
                             </label>
                             <DropdownForm
-                                endpoint="api/products/?show_all=true"
+                                endpoint="api/products/is_unique/1"
                                 labelKey="name"
                                 valueKey="id"
                                 initialSelected=""

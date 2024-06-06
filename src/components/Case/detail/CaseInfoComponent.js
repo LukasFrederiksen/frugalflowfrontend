@@ -5,6 +5,7 @@ import {BsFileEarmarkTextFill} from "react-icons/bs";
 import {FaBarsProgress} from "react-icons/fa6";
 import {BsPeopleFill} from "react-icons/bs";
 import DetailsSection from "../../UniqueProduct/Detail/DetailsSection";
+import {StandardCurrency} from "../../../utils/utils";
 
 
 const CaseInfoComponent = ({caseData}) => {
@@ -31,7 +32,7 @@ const CaseInfoComponent = ({caseData}) => {
                                 detail={caseData.case.vessel.imo}/>
                             <DetailsSection
                                 title="Ship Owner"
-                                detail={caseData.case.vessel.vessel_owner.name}/>
+                                detail={caseData.case.vessel.customer.name}/>
                         </div>
                     </div>
 
@@ -44,15 +45,17 @@ const CaseInfoComponent = ({caseData}) => {
                     className="w-full md:w-1/2 mb-6 md:border-l border-gray-200 dark:border-ff_background_dark md:pl-4">
                     <IconAndText icon={FaBarsProgress} text="Status"/>
                     <div>
-                        <div>Total Price: DKK {calculateTotalPrice(caseData.unique_products)}</div>
+                        <div>Total Price: {calculateTotalPrice(caseData.unique_products)} {StandardCurrency}</div>
                         Deadline: {new Date(caseData.case.deadline).toLocaleDateString()}
                     </div>
                     <div>Case Status: {caseData.case.case_status}</div>
                     <div>
                         Created At: {new Date(caseData.case.created_at).toLocaleString()}
                     </div>
-                    <IconAndText icon={BsPeopleFill} text="Status"/>
-                    <div>Product Owner: {caseData.product_owner}</div>
+                    <IconAndText icon={BsPeopleFill} text="Assigned Manager"/>
+                    <div>Project Manager: {caseData.case.user.first_name} {caseData.case.user.last_name}</div>
+                    <div>Email: {caseData.case.user.email}</div>
+                    <div>Phone Number: {caseData.case.user.phone_number}</div>
                 </div>
             </div>
         </div>

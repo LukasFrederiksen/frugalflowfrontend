@@ -3,23 +3,19 @@ import HttpClient from "../../Services/HttpClient";
 import { showSuccessToast } from "../common/toast";
 import { baseUrl } from "../../const";
 import { toast } from "react-toastify";
-import DropdownForm from "../Product/DropDown";
+import DropdownForm from "../common/DropDown";
 
 const httpClient = new HttpClient(baseUrl);
 
 export default function UniqueProductEditModal({ id, onClose, onUpdated }) {
-  const [serial_number, setSerialNumber] = useState("");
-  const [prevName, setPrevName] = useState("");
-  const [name, setName] = useState("");
-  const [sku, setSku] = useState("");
-  const [qty, setQty] = useState("");
+  const [serialNumber, setSerialNumber] = useState("");
   const [description, setDescription] = useState("");
-  const [cost_price, setCostPrice] = useState("");
-  const [retail_price, setRetailPrice] = useState("");
-  const [manufacture, setManufacture] = useState("");
-  const [selectedManufacture, setSelectedManufacture] = useState("");
-  const [is_deleted, setDeleted] = useState("");
-  const [location, setLocation] = useState("");
+  const [isDeleted, setDeleted] = useState("");
+  const [customPrice, setCustomPrice] = useState("");
+  const [product, setProduct] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [productCase, setProductCase] = useState({});
+  const [selectedCase, setSelectedCase] = useState({});
 
   useEffect(() => {
     if (!id) {
@@ -31,80 +27,62 @@ export default function UniqueProductEditModal({ id, onClose, onUpdated }) {
       try {
         const response = await httpClient.get(`api/unique_products/${id}`);
         const data = response.data.product;
-        console.log("Product data:", data);
+        // console.log("Product data:", data);
         setSerialNumber(data.serial_number);
-        setPrevName(data.name);
-        setName(data.name);
-        setSku(data.sku);
-        setQty(data.qty);
-        setDescription(data.description);
-        setCostPrice(data.cost_price);
-        setRetailPrice(data.retail_price);
-        setManufacture(data.manufacture);
-        setDeleted(
-          data.is_deleted || data.is_deleted === "true" ? "true" : "false"
-        );
-        setLocation(data.location);
-        setSelectedManufacture(data.manufacture);
+        setDescription(data.product.description);
+        setCustomPrice(data.custom_price);
+        setSelectedProduct(data.product);
+        setProduct(data.product);
+        setProductCase(data.case);
+        setSelectedCase(data.case);
       } catch (error) {}
     };
     fetchProductData();
   }, [id]);
 
-  const handleDropDownManufacturer = (selectedOption) => {
-    setManufacture(selectedOption.value);
-    setSelectedManufacture(selectedOption.value);
-    console.log("Manufacture selected:", selectedOption.value);
+  const handleDropDownProduct = (selectedOption) => {
+    setProduct(selectedOption.value);
+    setSelectedProduct(selectedOption.value);
+    console.log("Product selected:", selectedOption.value);
+  };
+  const handleDropDownCase = (selectedOption) => {
+    setProductCase(selectedOption.value);
+    setSelectedCase(selectedOption.value);
+    console.log("Case selected:", selectedOption.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("serial_number", serial_number);
-    formData.append("name", name);
-    formData.append("sku", sku);
-    formData.append("qty", qty);
+    formData.append("serial_number", serialNumber);
+    formData.append("product", product);
+    formData.append("case", productCase);
+    formData.append("custom_price", customPrice);
     formData.append("description", description);
-    formData.append("cost_price", cost_price);
-    formData.append("retail_price", retail_price);
-    formData.append("manufacture", manufacture);
-    formData.append("is_deleted", is_deleted);
-    formData.append("location", location);
+    formData.append("is_deleted", isDeleted);
 
     try {
-      const originalDataResponse = await httpClient.get(`api/products/${id}`);
+      const originalDataResponse = await httpClient.get(`api/unique_products/${id}`);
       const originalData = originalDataResponse.data.product;
-      const response = await httpClient.put(`api/products/${id}`, formData);
+      const response = await httpClient.put(`api/unique_products/${id}`, formData);
 
       if (response.data) {
         const changes = [];
 
-        if (serial_number !== originalData.serial_number) {
+        if (serialNumber !== originalData.serial_number) {
           changes.push(`Serial number`);
         }
-        if (name !== originalData.name) {
-          changes.push(`Name`);
+        if (productCase !== originalData.case) {
+          changes.push(`Case`);
         }
-        if (sku !== originalData.sku) {
-          changes.push(`Sku`);
+        if (product !== originalData.product) {
+          changes.push(`Product`);
         }
-        if (qty !== originalData.qty) {
-          changes.push(`Qty`);
+        if (customPrice !== originalData.custom_price) {
+          changes.push(`Custom Price`);
         }
         if (description !== originalData.description) {
           changes.push(`Description`);
-        }
-        if (cost_price !== originalData.cost_price) {
-          changes.push(`Cost price`);
-        }
-        if (retail_price !== originalData.retail_price) {
-          changes.push(`Retail price`);
-        }
-        if (manufacture !== originalData.manufacture) {
-          changes.push(`Manufacture`);
-        }
-        if (location !== originalData.location) {
-          changes.push(`Location`);
         }
         if (changes.length > 0) {
           showSuccessToast("Product changes: " + changes.join(", "));
@@ -118,32 +96,27 @@ export default function UniqueProductEditModal({ id, onClose, onUpdated }) {
   };
 
   return (
-    <div className="backdrop-blur-sm fixed inset-0 flex items-center justify-center z-50 bg-gray-600/30 dark:bg-black/30">
-      <div className="bg-white w-11/12 md:w-3/4 lg:max-w-lg mx-auto p-6 rounded-lg shadow-lg z-50 dark:bg-ff_bg_continer_dark dark:text-white dark:shadow-dark">
+      <div className="backdrop-blur-sm fixed inset-0 flex items-center justify-center z-50 bg-gray-600/30 dark:bg-black/30">
+      {selectedProduct && selectedCase &&
+        <div className="bg-white w-11/12 md:w-3/4 lg:max-w-lg mx-auto p-6 rounded-lg shadow-lg z-50 dark:bg-ff_bg_continer_dark dark:text-white dark:shadow-dark">
         <form>
           <p className="text-xl font-bold text-black dark:text-white">
             Edit Product:
           </p>
-          <p className="text-xl text-black dark:text-white mb-[15px]">
-            {prevName}
-          </p>
 
           <div className="mb-4">
             <label
-              htmlFor="name"
+              htmlFor="product"
               className="mb-1 block text-sm text-left font-medium text-gray-700 dark:text-white"
             >
-              Name
+              Product
             </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mt-1 p-2 border rounded w-full text-gray-700"
-              placeholder=""
+            <DropdownForm
+              endpoint="api/products/is_unique/1"
+              labelKey="name"
+              valueKey="id"
+              initialSelected={selectedProduct}
+              onValueChange={handleDropDownProduct}
             />
           </div>
 
@@ -159,7 +132,7 @@ export default function UniqueProductEditModal({ id, onClose, onUpdated }) {
               name="serial_number"
               id="serial_number"
               required
-              value={serial_number}
+              value={serialNumber}
               onChange={(e) => setSerialNumber(e.target.value)}
               className="mt-1 p-2 border rounded w-full text-gray-700"
               placeholder=""
@@ -168,75 +141,18 @@ export default function UniqueProductEditModal({ id, onClose, onUpdated }) {
 
           <div className="mb-4">
             <label
-              htmlFor="sku"
+              htmlFor="custom_price"
               className="mb-1 block text-sm text-left font-medium text-gray-700 dark:text-white"
             >
-              SKU
+              Custom price
             </label>
             <input
-              type="text"
-              name="sku"
-              id="sku"
+              type="number"
+              name="custom_price"
+              id="custom_price"
               required
-              value={sku}
-              onChange={(e) => setSku(e.target.value)}
-              className="mt-1 p-2 border rounded w-full text-gray-700"
-              placeholder=""
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="cost_price"
-              className="mb-1 block text-sm text-left font-medium text-gray-700 dark:text-white"
-            >
-              Cost price
-            </label>
-            <input
-              type="text"
-              name="cost_price"
-              id="cost_price"
-              required
-              value={cost_price}
-              onChange={(e) => setCostPrice(e.target.value)}
-              className="mt-1 p-2 border rounded w-full text-gray-700"
-              placeholder=""
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="retail_price"
-              className="mb-1 block text-sm text-left font-medium text-gray-700 dark:text-white"
-            >
-              Retail price
-            </label>
-            <input
-              type="text"
-              name="retail_price"
-              id="retail_price"
-              required
-              value={retail_price}
-              onChange={(e) => setRetailPrice(e.target.value)}
-              className="mt-1 p-2 border rounded w-full text-gray-700"
-              placeholder=""
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="qty"
-              className="mb-1 block text-sm text-left font-medium text-gray-700 dark:text-white"
-            >
-              Quantity
-            </label>
-            <input
-              type="text"
-              name="qty"
-              id="qty"
-              required
-              value={qty}
-              onChange={(e) => setQty(e.target.value)}
+              value={customPrice}
+              onChange={(e) => setCustomPrice(e.target.value)}
               className="mt-1 p-2 border rounded w-full text-gray-700"
               placeholder=""
             />
@@ -263,41 +179,21 @@ export default function UniqueProductEditModal({ id, onClose, onUpdated }) {
 
           <div className="mb-4">
             <label
-              htmlFor="manufacture"
+              htmlFor="case"
               className="mb-1 block text-sm text-left font-medium text-gray-700 dark:text-white"
             >
-              Manufacture
+              Case
             </label>
             <DropdownForm
-              endpoint="api/manufactures?show_all=true"
-              labelKey="name"
+              endpoint="api/cases/"
+              labelKey="title"
               valueKey="id"
-              initialSelected={selectedManufacture}
-              onValueChange={handleDropDownManufacturer}
+              useNone= {true}
+              initialSelected={selectedCase}
+              onValueChange={handleDropDownCase}
             />
           </div>
 
-          <div className="mb-4">
-            <label
-              htmlFor="location"
-              className="mb-1 block text-sm text-left font-medium text-gray-700 dark:text-white"
-            >
-              Location
-            </label>
-            <select
-              id="location"
-              name="location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className="ff-input w-full"
-            >
-              <option value="">Select location</option>
-              <option value="Frugal">Frugal</option>
-              <option value="Wrist">Wrist</option>
-              <option value="Copenhagen">Copenhagen</option>
-              <option value="Amsterdam">Amsterdam</option>
-            </select>
-          </div>
 
           <button
             type="button"
@@ -316,7 +212,7 @@ export default function UniqueProductEditModal({ id, onClose, onUpdated }) {
             Close
           </button>
         </form>
-      </div>
+      </div>}
     </div>
   );
 }

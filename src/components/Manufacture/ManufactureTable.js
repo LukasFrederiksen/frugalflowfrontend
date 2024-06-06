@@ -161,8 +161,7 @@ function ManufactureTable() {
               </th>
               <th scope="col" className="px-6 py-4">
                 Logo
-              </th>
-              <th scope="col" className="px-6 py-4 text-right">
+              </th><th scope="col" className="px-6 py-4">
                 Details
               </th>
             </tr>
@@ -179,34 +178,34 @@ function ManufactureTable() {
               </tr>
             ) : (
               data &&
-              data.results.map((ManuItem, index) => (
+              data.results.map((MenuItem, index) => (
                 <tr
-                  key={ManuItem.id}
+                  key={MenuItem.id}
                   className={`text-left hover:bg-ff_bg_sidebar_dark hover:bg-opacity-30 dark:hover:bg-ff_bg_sidebar_dark dark:hover:bg-opacity-70  ${
                     index !== itemsPerPage - 1 ? "border-b border-gray-600" : ""
                   } ${
                     index % 2 === 0 ? "ff-table-row-odd" : "ff-table-row-even"
                   }`}
                 >
-                  <td className="px-6 py-4">{ManuItem.id}</td>
+                  <td className="px-6 py-4">{MenuItem.id}</td>
                   <td className="px-4 py-2">
                     <span
                       className={`${
-                        ManuItem.isdeleted ? "bg-red-500" : "bg-green-500"
+                        MenuItem.isdeleted ? "bg-red-500" : "bg-green-500"
                       } h-2 w-2 rounded-full inline-block mr-2`}
                     ></span>
-                    {ManuItem.isdeleted ? "No" : "Yes"}
+                    {MenuItem.isdeleted ? "No" : "Yes"}
                   </td>
-                  <td className="px-6 py-4">{ManuItem.name}</td>
-                  <td className="px-6 py-4">{ManuItem.contactperson}</td>
-                  <td className="px-6 py-4">{ManuItem.email}</td>
-                  <td className="px-6 py-4">{ManuItem.phone}</td>
+                  <td className="px-6 py-4">{MenuItem.name}</td>
+                  <td className="px-6 py-4">{MenuItem.contact_person.email}</td>
+                  <td className="px-6 py-4">{MenuItem.email}</td>
+                  <td className="px-6 py-4">{MenuItem.phone}</td>
                   <td className="px-6 py-2">
                     <img
                       src={
-                        ManuItem.picture_logo.startsWith("http") ||
-                        ManuItem.picture_logo.startsWith("https")
-                          ? ManuItem.picture_logo
+                        MenuItem.picture_logo.startsWith("http") ||
+                        MenuItem.picture_logo.startsWith("https")
+                          ? MenuItem.picture_logo
                           : ""
                       }
                       alt="picture_logo"
@@ -214,12 +213,12 @@ function ManufactureTable() {
                     />
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button onClick={() => handleDetailsClick(ManuItem.id)}>
+                    <button onClick={() => handleDetailsClick(MenuItem.id)}>
                       <FiMoreHorizontal className="h-5 w-5 text-black dark:text-white" />
                     </button>
-                    {modalOpen && selectedManufacture.id === ManuItem.id && (
+                    {modalOpen && selectedManufacture.id === MenuItem.id && (
                       <EditManufacturers
-                        id={ManuItem.id}
+                        id={MenuItem.id}
                         onClose={closeEditForm}
                       />
                     )}

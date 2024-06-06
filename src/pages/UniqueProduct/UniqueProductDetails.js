@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { TbFileDescription } from "react-icons/tb";
 import { FaTimeline } from "react-icons/fa6";
-import { BiSolidComponent } from "react-icons/bi";
 import HttpClient from "../../Services/HttpClient";
 import { baseUrl } from "../../const";
-
-import InfoComponent from "../../components/Case/InfoComponent";
 import { TabsWithIconComponent } from "../../components/Case/detail/TabsWithIconComponent";
 import UniqueProductInfoComponent from "../../components/UniqueProduct/Detail/UniqueProductInfoComponent";
+import UniqueProductEditModal from "../../components/UniqueProduct/UniqueProductEditModal";
 
 
 function UniqueProductDetails() {
@@ -22,7 +20,7 @@ function UniqueProductDetails() {
 
   const fetchData = async () => {
     try {
-      const response = await httpClient.get(`api/products/unique_product/${id}`);
+      const response = await httpClient.get(`api/unique_products/${id}`);
       setProductData(response.data.product);
       console.log(response.data);
       setLoading(false);
@@ -48,18 +46,6 @@ function UniqueProductDetails() {
       component: productData && <UniqueProductInfoComponent product={productData} />,
     },
     {
-      label: "Stock",
-      value: "stock",
-      icon: <BiSolidComponent className="w-5 h-5" />,
-      component: <InfoComponent title="Stock" text="Stock overview" />,
-    },
-    {
-      label: "Timeline",
-      value: "timeline",
-      icon: <FaTimeline className="w-5 h-5" />,
-      component: <InfoComponent title="Timeline" text="Timeline Information" />,
-    },
-    {
       label: "Settings",
       value: "settings",
       icon: <FaTimeline className="w-5 h-5" />,
@@ -81,7 +67,7 @@ function UniqueProductDetails() {
     <>
       <TabsWithIconComponent tabs={tabs} />
       {isModalOpen && (
-        <UniqueProductDetails
+        <UniqueProductEditModal
           id={id}
           onClose={() => setIsModalOpen(false)}
           onUpdated={refreshProductData} // Pass the callback here

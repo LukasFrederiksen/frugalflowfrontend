@@ -125,7 +125,7 @@ function CasesTable() {
                   <td className="px-6 py-4">{caseItem.deadline}</td>
                   <td className="px-6 py-4">{caseItem?.vessel?.name}</td>
                   <td className="px-6 py-4">{caseItem.case_status}</td>
-                  <td className="px-6 py-4">{caseItem.case_manager.first_name + " " + caseItem.case_manager.last_name}</td>
+                  <td className="px-6 py-4">{caseItem.user.first_name + " " + caseItem.user.last_name}</td>
                   <td className="px-6 py-4 text-right">
                     {" "}
                     {/* Added cell for details button */}

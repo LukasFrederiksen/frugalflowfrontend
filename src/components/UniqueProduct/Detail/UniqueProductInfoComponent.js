@@ -1,6 +1,7 @@
 import React from "react";
 import DetailsSection from "./DetailsSection";
 import UniqueProductDetailSectionDescription from "./UniqueProductDetailsDescription";
+import {StandardCurrency} from "../../../utils/utils";
 
 const UniqueProductInfoComponent = ({product}) => {
     return (
@@ -27,7 +28,7 @@ const UniqueProductInfoComponent = ({product}) => {
                         <DetailsSection title="Serial Number" detail={product?.serial_number}/>
                         <DetailsSection
                             title="Custom Price"
-                            detail={`${product?.custom_price},-`}
+                            detail={`${product?.custom_price} ${StandardCurrency}`}
                         />
                         <DetailsSection
                             title="Status Payment"
@@ -50,7 +51,7 @@ const UniqueProductInfoComponent = ({product}) => {
                                 <DetailsSection
                                     title="Case Manager"
                                     link={`/case/${product?.case?.vessel?.id}`}
-                                    detail={product?.case?.case_manager?.first_name + " " + product?.case?.case_manager?.last_name}/>
+                                    detail={product?.case?.user?.first_name + " " + product?.case?.user?.last_name}/>
                                 <DetailsSection
                                     title="Vessel"
                                     link={`/vessels/${product?.case?.vessel?.id}`}
