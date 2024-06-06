@@ -16,9 +16,9 @@ const UniqueProductCreateForm = () => {
     const location = useLocation();
 
     const [formData, setFormData] = useState({
-        product_type: "",
+        product_id: "",
         serial_number: "",
-        vessel: "",
+        case_id: "",
         status_shipping: "",
         status_payment: "",
         custom_price: ""
@@ -35,17 +35,11 @@ const UniqueProductCreateForm = () => {
     };
 
     const handleProductTypeChange = (selectedOption) => {
-        handleDropDown(selectedOption, 'product_type')
+        handleDropDown(selectedOption, 'product_id')
     };
 
-    const handleVesselChange = (selectedOption) => {
-        handleDropDown(selectedOption, 'vessel')
-    };
-    const handleStatusShippingChange = (selectedOption) => {
-        handleDropDown(selectedOption, 'status_shipping')
-    };
-    const handleStatusPaymentChange = (selectedOption) => {
-        handleDropDown(selectedOption, 'status_payment')
+    const handleCaseChange = (selectedOption) => {
+        handleDropDown(selectedOption, 'case_id')
     };
     const handleDropDown = (selectedOption, type) => {
         setFormData((prevState) => ({
@@ -57,16 +51,16 @@ const UniqueProductCreateForm = () => {
     const validateForm = () => {
         const Errors = {};
 
-        if (!formData.product_type) {
-            Errors.product_type = "Select a product type";
+        if (!formData.product_id) {
+            Errors.product_id = "Select a product type";
         }
 
         if (!formData.serial_number.trim()) {
             Errors.serial_number = "Serial number required"
         }
 
-        if (!formData.vessel) {
-            Errors.vessel = "Select a vessel";
+        if (!formData.case_id) {
+            Errors.case_id = "Select a case";
         }
 
         if (!formData.status_shipping) {
@@ -102,7 +96,7 @@ const UniqueProductCreateForm = () => {
             if (response.status === 201) {
                 updateToast(toastId, "Unique product created successfully!", "success");
                 navigate(
-                    location?.state?.previousUrl ? location.state.previousUrl : "/unique_products"
+                    location?.state?.previousUrl ? location.state.previousUrl : "/unique-products"
                 );
             } else {
                 updateToast(toastId, `Error creating unique product: ${response.error}`, "error");
@@ -131,9 +125,9 @@ const UniqueProductCreateForm = () => {
                                 className="flex justify-between items-center mb-2 text-sm font-medium ff-text"
                             >
                                 Product Type
-                                {errors.product_type && (
+                                {errors.product_id && (
                                     <p className="text-red-500 text-xs ml-auto">
-                                        {errors.product_type}</p>
+                                        {errors.product_id}</p>
                                 )}
                             </label>
                             <DropdownForm
@@ -170,26 +164,27 @@ const UniqueProductCreateForm = () => {
                             >
                             </input>
                         </div>
-                        {/* Vessel */}
+                        {/* Case */}
                         <div className="py-2">
                             <label
-                                htmlFor="Vessel"
+                                htmlFor="case_id"
                                 className="flex justify-between items-center mb-2 text-sm font-medium ff-text"
                             >
-                                Vessel
-                                {errors.vessel && (
+                                Case
+                                {errors.case_id && (
                                     <p className="text-red-500 text-xs ml-auto">
-                                        {errors.vessel}</p>
+                                        {errors.case_id}</p>
                                 )}
                             </label>
                             <DropdownForm
-                                endpoint="api/vessels/?show_all=true"
-                                labelKey="name"
+                                endpoint="api/cases/"
+                                labelKey="title"
                                 valueKey="id"
                                 initialSelected=""
                                 useNone={true}
-                                onValueChange={handleVesselChange}
+                                onValueChange={handleCaseChange}
                             />
+
                         </div>
                     </div>
 
@@ -199,67 +194,70 @@ const UniqueProductCreateForm = () => {
                         <IconAndText icon={BsPeopleFill} text="2"/>
 
                         {/* Status Shipping */}
+
+                        <label className="flex justify-between items-center mb-2 text-sm font-medium ff-text">
+                            Status Shipping
+                            {errors.status_shipping && (
+                                <p className="text-red-500 text-xs ml-auto">
+                                    {errors.status_shipping}
+                                </p>
+                            )}
+                        </label>
+                        <select
+                            id="status_shipping"
+                            name="status_shipping"
+                            value={formData.status_shipping}
+                            onChange={handleInputChange}
+                            className="ff-input w-full"
+                        >
+                            <option value="">Select a status</option>
+                            <option value="Arrived">Arrived</option>
+                            <option value="Shipping">Shipping</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Not Sent">Not Sent</option>
+                        </select>
+                        {/* Status Payment */}
+                        <label className="flex justify-between items-center mb-2 text-sm font-medium ff-text">
+                            Status Shipping
+                            {errors.status_payment && (
+                                <p className="text-red-500 text-xs ml-auto">
+                                    {errors.status_payment}
+                                </p>
+                            )}
+                        </label>
+                        <select
+                            id="status_payment"
+                            name="status_payment"
+                            value={formData.status_payment}
+                            onChange={handleInputChange}
+                            className="ff-input w-full"
+                        >
+                            <option value="">Select a status</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Awaiting Payment">Awaiting Payment</option>
+                            <option value="Invoice Sent">Invoice Sent</option>
+                            <option value="Invoice Not Created">Invoice Not Created</option>
+                        </select>
+                        {/* Custom price */}
                         <div className="py-2">
                             <label
-                                htmlFor="status_shipping"
-                                className="flex justify-between items-center mb-2 text-sm font-medium ff-text"
-                            >
-                                Status Shipping
-                                {errors.status_shipping && (
+                                className="flex justify-between items-center mb-2 text-sm font-medium ff-text">
+                                Custom price
+                                {errors.custom_price && (
                                     <p className="text-red-500 text-xs ml-auto">
-                                        {errors.status_shipping}
+                                        {errors.custom_price}
                                     </p>
                                 )}
                             </label>
-                            <DropdownForm
-                                endpoint="api/manufactures?show_all=true"
-                                labelKey="name"
-                                valueKey="id"
-                                initialSelected=""
-                                onValueChange={handleStatusShippingChange}
+                            <input
+                                type="number"
+                                id="custom_price"
+                                name="custom_price"
+                                value={formData.custom_price}
+                                onChange={handleInputChange}
+                                className="ff-input w-full"
+                                placeholder="0.00"
                             />
-                            {/* Status Payment */}
-                            <div className="py-2">
-                                <label
-                                    htmlFor="status_payment"
-                                    className="flex justify-between items-center mb-2 text-sm font-medium ff-text"
-                                >
-                                    Status Payment
-                                    {errors.status_payment && (
-                                        <p className="text-red-500 text-xs ml-auto">
-                                            {errors.status_payment}
-                                        </p>
-                                    )}
-                                </label>
-                                <DropdownForm
-                                    endpoint="api/manufactures?show_all=true"
-                                    labelKey="name"
-                                    valueKey="id"
-                                    initialSelected=""
-                                    onValueChange={handleStatusPaymentChange}
-                                />
-                            </div>
-                            {/* Custom price */}
-                            <div className="py-2">
-                                <label
-                                    className="flex justify-between items-center mb-2 text-sm font-medium ff-text">
-                                    Custom price
-                                    {errors.custom_price && (
-                                        <p className="text-red-500 text-xs ml-auto">
-                                            {errors.custom_price}
-                                        </p>
-                                    )}
-                                </label>
-                                <input
-                                    type="number"
-                                    id="custom_price"
-                                    name="custom_price"
-                                    value={formData.custom_price}
-                                    onChange={handleInputChange}
-                                    className="ff-input w-full"
-                                    placeholder="0.00"
-                                />
-                            </div>
                         </div>
                     </div>
 

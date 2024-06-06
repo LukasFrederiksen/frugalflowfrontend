@@ -14,7 +14,7 @@ const VesselCreateForm = () => {
     const location = useLocation();
     const [formData, setFormData] = useState({
         name: "",
-        imo: "",
+        imo: 0,
         type: "",
         customer_id: "",
     });
@@ -42,7 +42,7 @@ const VesselCreateForm = () => {
             Errors.name = "Name is required"
         }
 
-        if (!formData.imo.trim()) {
+        if (formData.imo <= 0 || isNaN(formData.imo)) {
             Errors.imo = "Imo is required"
         }
 
@@ -124,7 +124,7 @@ const VesselCreateForm = () => {
                                 )}
                             </label>
                             <input
-                                type="text"
+                                type="number"
                                 id="imo"
                                 name="imo"
                                 value={formData.imo}
