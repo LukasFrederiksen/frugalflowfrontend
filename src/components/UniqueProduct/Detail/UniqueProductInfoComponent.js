@@ -7,16 +7,6 @@ const UniqueProductInfoComponent = ({product}) => {
     return (
         <div className="container mx-auto p-4">
             <div className="flex flex-wrap bg-ff_bg_continer_light dark:bg-ff_bg_continer_dark">
-                {/* Product Image and Title */}
-                {/*<div className="w-full md:w-1/2 md:border-b-0">*/}
-                {/*  <div className="flex justify-center">*/}
-                {/*    <img*/}
-                {/*      src="https://softsmarttech.co.za/wp-content/uploads/2018/06/image-not-found-1038x576.jpg"*/}
-                {/*      alt={product?.name}*/}
-                {/*      className="rounded-md"*/}
-                {/*    />*/}
-                {/*  </div>*/}
-                {/*</div>*/}
 
                 {/* Product Details */}
                 <div className="w-full md:w-1/2 lg:pl-4 md:pl-4 ">
@@ -28,7 +18,7 @@ const UniqueProductInfoComponent = ({product}) => {
                         <DetailsSection title="Serial Number" detail={product?.serial_number}/>
                         <DetailsSection
                             title="Custom Price"
-                            detail={`${product?.custom_price} ${StandardCurrency}`}
+                            detail={product.custom_price === null ? "None" : `${product?.custom_price} ${StandardCurrency}`}
                         />
                         <DetailsSection
                             title="Status Payment"
@@ -63,7 +53,7 @@ const UniqueProductInfoComponent = ({product}) => {
                                 />
                                 <DetailsSection
                                     title="Fleet Owner"
-                                    detail={`${product?.case?.vessel?.vessel_owner?.name}`}
+                                    detail={`${product?.case?.vessel?.customer?.name}`}
                                 />
                             </div> : <div>Product not assigned to case</div>
                             }

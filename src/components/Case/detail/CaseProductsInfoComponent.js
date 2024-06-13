@@ -116,7 +116,7 @@ function CaseProductsInfoComponent(productsData) {
                                                 : ""
                                         }`}
                                     >
-                                        {product?.custom_price < 0 ? `${product?.product?.retail_price} ${StandardCurrency}` : `${product?.custom_price} ${StandardCurrency}`}
+                                        { product.custom_price === null ? `${product?.product?.cost_price} ${StandardCurrency}` : `${product?.custom_price} ${StandardCurrency}`}
                                     </td>
                                     <td className="py-4 mr-4 items-center justify-center float-right">
                                         <button onClick={() => handleDetailsClick(product.unique_product_id)}>

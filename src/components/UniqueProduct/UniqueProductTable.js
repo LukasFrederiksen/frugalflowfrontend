@@ -92,7 +92,10 @@ function UniqueProductTable() {
               Status Payment
             </th>
             <th scope="col" className="px-6 py-4 w-[260px]">
-              Vessel
+              Case
+            </th>
+            <th scope="col" className="px-6 py-4 w-[260px]">
+              Custom Price
             </th>
             <th scope="col" className="px-6 py-4 float-right">
               Details
@@ -161,7 +164,16 @@ function UniqueProductTable() {
                       : ""
                   }`}
                 >
-                  {product.case === null ? "None" : product.case.vessel.name}
+                  {product.case === null ? "None" : product.case.title}
+                </td>
+                <td
+                  className={`py-4 px-6 text-gray-900  dark:text-gray-300 w-[320px] ${
+                    product.isDeleted
+                      ? "text-opacity-25 dark:text-opacity-25"
+                      : ""
+                  }`}
+                >
+                  {product.custom_price != null ? product.custom_price : "None" }
                 </td>
                 <td className="py-4 mr-4 items-center justify-center float-right">
                   <button onClick={() => handleDetailsClick(product.unique_product_id)}>

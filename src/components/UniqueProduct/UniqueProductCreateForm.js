@@ -8,7 +8,6 @@ import {BsPeopleFill} from "react-icons/bs";
 
 import DropdownForm from "../common/DropDown";
 import {showLoadingToast, updateToast} from "../common/toast";
-
 const httpClient = new HttpClient(baseUrl);
 
 const UniqueProductCreateForm = () => {
@@ -71,7 +70,7 @@ const UniqueProductCreateForm = () => {
             Errors.status_payment = "Select a payment status";
         }
 
-        if (formData.custom_price <= 0 || isNaN(formData.custom_price)) {
+        if (isNaN(formData.custom_price) && formData.custom_price <= 0) {
             Errors.custom_price = "Custom price must be a positive number";
         }
 
@@ -88,7 +87,9 @@ const UniqueProductCreateForm = () => {
         }
 
         console.log("Form data submitted:", formData);
-
+        if (formData['custom_price'] === "") {
+            formData['custom_price'] = null
+        }
         let toastId;
         try {
             toastId = showLoadingToast("Creating unique product...");

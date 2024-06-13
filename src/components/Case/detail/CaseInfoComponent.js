@@ -10,6 +10,13 @@ import {StandardCurrency} from "../../../utils/utils";
 
 const CaseInfoComponent = ({caseData}) => {
     console.log(caseData)
+
+    const [month, day, year] = new Date(caseData.case.created_at).toLocaleString('en-GB', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    }).split('/')
+    const formatted_created_at = `${day}.${month}.${year}`;
     return (
         <div className="w-full bg-white rounded-md dark:bg-ff_bg_continer_dark dark:text-white">
             <div className="flex flex-wrap">
@@ -50,7 +57,7 @@ const CaseInfoComponent = ({caseData}) => {
                     </div>
                     <div>Case Status: {caseData.case.case_status}</div>
                     <div>
-                        Created At: {new Date(caseData.case.created_at).toLocaleString()}
+                        Created At: {formatted_created_at}
                     </div>
                     <IconAndText icon={BsPeopleFill} text="Assigned Manager"/>
                     <div>Project Manager: {caseData.case.user.first_name} {caseData.case.user.last_name}</div>
@@ -62,13 +69,13 @@ const CaseInfoComponent = ({caseData}) => {
     );
 };
 
-function calculateTotalPrice(uniqueProducts){
+function calculateTotalPrice(uniqueProducts) {
     let total = 0
     uniqueProducts.forEach((product) => {
-        if (product?.custom_price && product.custom_price >= 0){
+        if (product.custom_price != null && product.custom_price >= 0) {
             total += product.custom_price
-        }else{
-            total += product?.product?.retail_price
+        } else {
+            total += product?.product?.cost_price
         }
     })
 
